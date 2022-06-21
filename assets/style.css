@@ -60,6 +60,18 @@ body {
 	padding-top: 5rem;
 }
 
+#resume-area {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	flex-flow: column;
+	padding-top: 5rem;
+	width: 80%;
+	margin: 0 auto;
+	height: 100%;
+
+}
+
 .content-box {
 	margin: 0.5rem auto;
 	padding: 0.5rem 3rem;
