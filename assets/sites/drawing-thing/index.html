@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <a href="../../../web-projects.html" style="text-decoration: none"><h1 style="color: black; text-align: center;">Drawing Thing!</h1></a>
+        <style>
+            #container {
+                display: flex;
+                justify-content: center;
+            }
+            #cont2 {
+                float: left;
+                width: 0px;
+            }
+            #holder {
+                display: flex;
+                justify-content: center;
+                border-style: double;
+                border-color: black;
+                width: 900px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="cont2">
+            <input id="sizeBox" type="number" value="15">
+            <input id="colorBox" type="textarea" value="Black">
+            <input type="button" value="Clear" onclick="new function() { background('white'); }">
+        </div>
+        <div id="container">
+            <div id="holder"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+        <script src="sketch.js"></script>
+    </body>
+</html>

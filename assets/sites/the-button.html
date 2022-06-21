@@ -1,0 +1,49 @@
+<html>
+<head>
+<style>
+	a {
+        text-decoration: none;
+        color: black;
+    }
+	body {
+		background-color: #7a7a7a;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	@keyframes float {
+		0% {transform: translate(0px, 15px)}
+		50% {transform: translate(0px, 25px)}
+		100% {transform: translate(0px, 15px)}
+	}
+	#button {
+		background-color: rgb(133, 176, 255);
+		padding: 5px 25px;
+		text-align: center;
+		font-size: 100px;
+		transition: 1s;
+		-webkit-user-select: none;
+		border: 3px solid black;
+		border-radius: 5px;
+		animation: float 5s ease-in-out forwards infinite;
+		box-shadow: 7px 9px #242424;
+	}
+	#button:hover {
+		transition: 1s;
+		background-color: rgb(86, 123, 192);
+		cursor: pointer;
+	}
+	#button:active {
+		transition: 0.1s;
+		background-color:rgb(64, 90, 138);
+	}
+	#container {
+		display: flex;
+		justify-content: center;
+	}
+</style>
+</head>
+<body>
+	<div id="container">
+		<a href="../../../web-projects.html"><div id="button">The Button!</div></a>
+	</div>
+</body>
+</html>

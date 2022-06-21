@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <a href="../../../web-projects.html" style="text-decoration: none"><p align="center"><font style="font-size: 100px;" color="red">Raiders</font></p></a>
+
+      <style>
+         body {
+            font-size: 200%;
+         }
+         button {
+            font-size: 100%;
+            background:rgb(255, 0, 0);
+         }
+
+         #cont1 {
+            padding: 5%;
+            float: right;
+         }
+
+         #cont2 {
+            width: 50%;
+            padding: 5%;
+            float: left;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="name" align="center"></div>
+      <div id="cont1">
+         <div id="bank" align="right">Bank: null</div>
+         <div id="highScore" align="right" onclick="cheatCode()">HighScore: null</div>
+         <div id="playerScore" align="right">Score: null</div>
+         <div id="levelShow" align="right">Level: null</div>
+         <div id="deathCounter" align="right">Deaths: null</div>
+      </div>
+      <div id="cont2">
+         <div id="show" style="text-decoration: underline;">Raid to begin</div>
+         <button type="button" onclick="power()">Raid</button>
+         <br>
+         <button type="button" onclick="bank()">Bank(DEPOSIT)</button>
+         <br>
+         <button type="button" onclick="bank(1)">Bank(WITHDRAW)</button>
+         <br>
+         <button type="button" onclick="restart()">Restart</button>
+         <br>
+         <button type="button" onclick="resetCache()">Reset</button>
+         <br>
+         <button type="button" onclick="info()">About</button>
+      </div>
+      <script>
+         var deaths = 0;
+         var hscore = 1500;
+         var score = 0;
+         var balance = 0;
+         var table1 = [0,0,0,0,1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,6,7,8,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,12,13,14,15,15,15,15,15,15,30,30,30,30,30,50,50,50,50,50,50,50,100,100,100,500,500,1000,"chance","chance","chance","chance","chance","chance","rob","rob","rob","rob","rob","rob","rob","die"];
+         var table2 = [0,0,0,0,1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,6,7,8,9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,12,13,14,15,15,15,15,15,15,30,30,30,30,30,50,50,50,50,50,50,50,100,100,100,500,500,1000];
+         var table3 = [10,10,10,10,10,20,30,40,50,50,50,50,50,50,50,50,50,50,50,50,60,70,80,90,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,300,306,307,308,309,509,508,507,506,505,505,500,1000,1000,1000,5000,5000,10000,10000,10000]
+         var myTable = table1;
+         var currentlevel = 1;
+
+         onload=function() {
+            loadGame();
+            if (localStorage.getItem("savedName") === null)
+               localStorage.setItem("savedName", "");
+      
+            document.getElementById("name").innerHTML = "<font size=5>" + localStorage.getItem("savedName") + "</font>";
+            updateUI();
+         }
+      
+         function updateUI() {
+            if (score < 0)
+               score = 0;
+            if (score >= hscore)
+               hscore = score;
+      
+            document.getElementById("highScore").innerHTML= "HighScore: " + hscore;
+            document.getElementById("playerScore").innerHTML= "Score: " + score;
+            document.getElementById("levelShow").innerHTML = "Level: " + currentlevel;
+            document.getElementById("deathCounter").innerHTML= "Deaths: " + deaths;
+            document.getElementById("bank").innerHTML= "Bank:" + balance;
+      
+            saveGame();
+         }
+      
+      
+         function saveGame() {
+            localStorage.setItem("savedBank", balance);
+            localStorage.setItem("savedScore", score);
+            localStorage.setItem("savedHighscore", hscore);
+            localStorage.setItem("savedDeaths", deaths);
+            localStorage.setItem("savedLevel", currentlevel);
+         }
+      
+         function loadGame() {
+            if (localStorage.getItem("savedBank") === null)
+               balance = 0;
+            else {
+               if (localStorage.getItem("savedBank")) {
+                  deduction = Math.floor(Math.random() * localStorage.getItem("savedBank") / 4)
+                  balance = localStorage.getItem("savedBank") - deduction;
+                  if (deduction)
+                     showText("You lost " + deduction + " points while you were away.")
+               }
+            }
+            if (localStorage.getItem("savedScore") === null)
+               score = 0;
+            else
+               score = parseInt(localStorage.getItem("savedScore"));
+            if (localStorage.getItem("savedHighscore") === null)
+               hscore = 1500;
+            else
+               hscore = localStorage.getItem("savedHighscore");
+            if (localStorage.getItem("savedDeaths") === null)
+               deaths = 0;
+            else
+               deaths = localStorage.getItem("savedDeaths");
+            if (localStorage.getItem("savedLevel") === null)
+               currentlevel = 1;
+            else
+               currentlevel = localStorage.getItem("savedLevel");
+         }
+      
+         function showText(x) { document.getElementById("show").innerHTML = x; }
+         function info() { alert("RAIDERS CLASSIC: Hello and welcome to Raiders! This is a simple game where players take risks to grow their factions.") }
+      
+         function die(x = 0) {
+            alert("You lasted to level " + currentlevel + " with " + score + " points!");
+            ++deaths;
+            score = 0;
+            currentlevel = 1;
+            switch (x) {
+               case 0:
+                  showText("You were executed for your crimes");
+                  break;
+               case 1:
+                  showText("You were assasinated");
+                  break;
+            }
+            updateUI();
+         }
+      
+         function power() {
+            ++currentlevel;
+            updateUI();
+            pointpick = Math.floor(Math.random() * myTable.length);
+      
+            if ((myTable[pointpick]) == "chance") {
+               showText("Be more careful next time");
+               alert("You've been caught!");
+               alert("You offer the dead mans gamble");
+               haschance = Math.floor(Math.random()*2);
+      
+               if (haschance == "1") {
+                  alert("They denied...");
+                  die();
+               }
+               else {
+                  alert("They agreed");
+                  sides = ["h","t"];
+                  i = Math.floor(Math.random()*2);
+                  pickside = prompt("They flip the golden coin, do you pick heads or tails (h/t)");
+                  t = (sides[i]);
+      
+                  if (pickside == t) {
+                     alert("YOU WON!!! +" + (100 * currentlevel) + " points");
+                     score += 100 * currentlevel;
+                  }
+                  else {
+                     alert("You lost...");
+                     die();
+                  }
+               }
+            }
+            else if ((myTable[pointpick]) == 0)
+               showText("Couldnt find any loot");
+            else if ((myTable[pointpick]) == "die")
+               die(1);
+            else if ((myTable[pointpick]) == "rob") {
+               deduction = Math.floor(Math.random() * 25 * currentlevel);
+               showText("You got raided for " + deduction + " points");
+               score -= deduction;
+            }
+            else {
+               value = (myTable[pointpick]) * (1 + Math.floor(Math.random() * currentlevel));
+               score += value
+               showText(value + " points worth of loot found");
+            }
+            updateUI();
+         }
+      
+         function cheatCode() {
+            cheat = prompt("Enter a secret code");
+      
+            switch (cheat) {
+               case "19281":
+                  alert("High points cheat successful");
+                  score = (score + 1) * 99999999;
+                  break;
+               case "baby":
+                  alert("No enemies cheat successful");
+                  myTable = table2;
+                  break;
+               case "lucky":
+                  alert("Luck cheat successful");
+                  myTable = table3;
+                  break;
+               case "over 9000":
+                  alert("Vegeta, what does the scouter say about his power level?!?!");
+                  currentlevel = 9000;
+                  break;
+               case "reset":
+                  myTable = table1;
+                  alert("Cheats deactivated");
+                  break;
+               default:
+                  alert("Invalid code");
+                  break;
+            }
+            updateUI();
+         }
+      
+         function resetCache(x = 0) {
+            if (!x)
+               i = confirm("Are you sure you would like to FULLY reset the game?");
+      
+            if (i || x) {
+               alert("Reset successful");
+               score = 0;
+               hscore = 1500;
+               currentlevel = 1;
+               myTable = table1;
+               deaths = 0;
+               balance = 0;
+               window.localStorage.clear();
+               showText("Raid to begin");
+            }
+            updateUI();
+         }
+         
+         function restart() {
+            i = confirm("Are you sure you would like to restart? (Keeping scores)");
+            
+            if (i) {
+               alert("You lasted to level " + currentlevel + " with " + score + " points!");
+               score = 0;
+               balance = 0;
+               currentlevel = 1;
+               showText("Raid to begin");
+            }
+            updateUI();
+         }
+      
+         function bank(x = 0) {
+            if (x == 0) {
+               showText("You donated your points to the faction");
+               balance += score;
+               score = 0;
+            }
+            else {
+               prob = 1 + Math.floor(Math.random() * 100);
+               if (prob <= 65) {
+                  if (balance > 0)
+                     showText("You retrieved points from the faction");
+               }
+               else if (prob > 65 && prob <= 90) {
+                  deduction = Math.floor(Math.random() * balance / 2);
+                  if (deduction > 0)
+                     showText("During your withdrawl you were robbed for " + deduction + " points");
+                  balance -= deduction;
+               }
+               else if (prob > 90 && prob < 100) {
+                  deduction = Math.floor(Math.random() * balance);
+                  if (deduction > 0)
+                     showText("During your withdrawl you were robbed for " + deduction + " points");
+                  balance -= deduction
+               }
+               else {
+                  if (balance > 0)
+                     showText("During your withdrawl you were attacked and they took everything...");
+                  balance = 0;
+               }
+               score += balance;
+               balance = 0;
+            }
+            updateUI();
+         }
+      </script>
+   </body>
+</html>

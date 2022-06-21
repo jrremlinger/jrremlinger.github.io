@@ -1,0 +1,361 @@
+<head>
+<title>Raiders!</title>
+
+<!--Importing/Sourcing all the scrips into the document-->
+<script src="raid_data/roll.js"></script>
+<script src="raid_data/math.js"></script>
+<script src="raid_data/update.js"></script>
+<script src="raid_data/logger.js"></script>
+<script src="raid_data/luck.js"></script>
+<script src="raid_data/userDat.js"></script>
+<script src="raid_data/shopMethods.js"></script>
+
+<script>
+	//Defining global variables.
+	var gold;
+	var silver;
+	var copper;
+	var currTypeRng;
+	var currValRng;
+	var winType;
+	var winValue;
+	var curSym = ["ɠ", "Ⓒ", "Ⓢ", "Ⓖ"];
+	var [cSym1, cSym2, cSym3, cSym4] = curSym;
+	var rarity = oneToFive();
+	var clicks;
+	var winLoseRng;
+	var win;
+	var loop = setInterval(roll, 1000)		//Begins looping the "roll()" function every 1 seconds.
+	var badLuck;
+	var looperino = setInterval(loopedDel, 2000); 	//Loops the "loopedDel" function every 2 seconds.
+	var diamond;
+	var diamRng;
+
+	//var name = "josh";
+	//say = name.charAt(3);
+	//document.write(say);
+	
+	//Executes on all methods required for startup.	
+	function loadStart() {
+		user.checkStart();
+		badLuck = 0;
+		user.createKey();
+		roll();
+	}
+
+	//Activates the rng based logic system to calculate raid results.
+	function actionStart() {
+		giveBadLuck();
+		clicks += 1;		//Adds to click counter :P
+		localStorage.setItem("raidClicks", clicks);
+		quickMafs();
+		updateDisplay();
+		user.createKey();
+		roll();
+	}
+</script>
+
+<style>
+	body {
+		font-family: Verdana;
+	}
+	#thangs{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: center;
+		background-color: rgb(37, 58, 99);
+		color: #acc0ec;
+		padding: 30px;
+		border: 7px solid rgb(156, 145, 255);
+	}
+
+	.maButton {
+		color: #322963;
+		transition: 0.7s;
+		cursor: pointer;
+		padding: 20px 30px;
+		background-color: rgb(56, 160, 230);
+		font-size: 80;
+		border-radius: 10px;
+		border: 6px solid lightblue;
+		text-align: center;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none; 
+			-moz-user-select: none; 
+			-ms-user-select: none;
+			user-select: none;
+	}
+
+	.maButton:hover {
+		transition: 0.7s;
+		background-color: rgb(51, 100, 165);
+	}
+
+	.CurrButt {
+		float: center;
+		color: #322963;
+		transition: 0.7s;
+		cursor: pointer;
+		text-align: center;
+		background-color: rgb(56, 160, 230);
+		text-align: center;
+		padding: 1px 15px;
+		font-size: 25;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none; 
+			-moz-user-select: none; 
+			-ms-user-select: none;
+			user-select: none;
+		border: 4px solid lightblue;;
+		border-radius: 10px;
+	}
+	
+	.CurrButt:hover {
+		transition: 0.7s;
+		background-color: rgb(51, 100, 165);
+	}
+
+	#silvButt {
+		float: center;
+		color: #322963;
+		transition: 0.7s;
+		cursor: pointer;
+		text-align: center;
+		padding: 1px 2px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none; 
+			-moz-user-select: none; 
+			-ms-user-select: none;
+			user-select: none;
+	}
+
+	#adventureLog {
+		background-color: #5a73a8;
+		padding: 10px;
+		border: 7px solid rgb(156, 145, 255);
+		color: #dbe6ff;
+	}
+
+	#shopTitle {
+		background-color: #382e83;
+		text-align: center;
+		font-size: 125;
+		color: #acc0ec;
+		padding: 10px;
+		border: 7px solid rgb(156, 145, 255);
+	}
+
+	#CurrTables {
+		background-color: #322963;
+		padding: 17px;
+		border: 5px solid lightblue;
+	}
+
+	#IntTables {
+		background-color: #322963;
+		padding: 27px;
+		justify-content: space-around;
+		align-items: center;
+		background-color: rgb(37, 58, 99);
+		color: #acc0ec;
+		height: 320px;
+		padding: 30px;
+		border: 7px solid rgb(156, 145, 255);
+	}
+
+	#ButtonBG {
+		background-color: #322963;
+		padding: 60px 20px;
+		border: 5px solid lightblue;
+	}
+
+	#shop {
+		background-color: #91adec;
+		border: 7px solid rgb(18, 103, 131);
+		padding: 100px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	#luckButt:active {
+		transition: 0.1s;
+		background-color: gold;
+		color: rgb(247, 247, 247);
+	}
+
+	#shBox1 {
+		background-color: peru;
+		padding: 10px 1px;
+		border: 7px solid #5a73a8;
+		text-align: center;
+		color: #ffffff;
+		font-size: 30;
+	}
+	#shBox2 {
+		background-color: rgb(141, 141, 141);
+		padding: 10px 1px;
+		border: 7px solid #5a73a8;
+		text-align: center;
+		color: #ffffff;
+		font-size: 30;
+	}
+	#shBox3 {
+		background-color: goldenrod;
+		padding: 10px 1px;
+		border: 7px solid #5a73a8;
+		text-align: center;
+		color: #ffffff;
+		font-size: 30;
+	}
+	#shBox4 {
+		background-color: rgb(15, 159, 255);
+		padding: 10px 1px;
+		border: 7px solid #5a73a8;
+		text-align: center;
+		color: #ffffff;
+		font-size: 30;
+	}
+
+	#diamDisp {
+		color: rgb(15, 159, 255);
+	}
+	#goldDisp {
+		color: goldenrod;
+	}
+	#silvDisp {
+		color: rgb(141, 141, 141);
+	}
+	#coppDisp {
+		color: peru;
+	}
+
+	#BuyButt {
+		color: #322963;
+		transition: 0.7s;
+		cursor: pointer;
+		padding: 3px 9px;
+		height: 100px;
+		background-color: rgb(56, 160, 230);
+		font-size: 50;
+		border-radius: 10px;
+		border: 6px solid lightblue;
+		text-align: center;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none; 
+			-moz-user-select: none; 
+			-ms-user-select: none;
+			user-select: none;
+	}
+	#BuyButt:hover {
+		transition: 0.7s;
+		background-color: rgb(51, 100, 165);
+	}
+
+	#UltraButt {
+		color: #322963;
+		transition: 0.7s;
+		cursor: pointer;
+		padding: 3px 9px;
+		height: 55;
+		width: 55;
+		background-color: rgb(56, 160, 230);
+		font-size: 50;
+		border-radius: 10px;
+		border: 6px solid lightblue;
+		text-align: center;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none; 
+			-moz-user-select: none; 
+			-ms-user-select: none;
+			user-select: none;
+	}
+	#UltraButt:hover {
+		transition: 0.7s;
+		background-color: rgb(51, 100, 165);
+	}
+</style>
+</head>
+
+<body onload="loadStart()" style="background-color: lightblue;">
+
+	<a href="../../../web-projects.html" style="text-decoration: none"><h1 style="font-size:70; color: #322963; text-align: center; ">Raiders Rebirth</h1></a>
+	
+	<div id="adventureLog" style="font-size: 45; text-align: center">Begin your journey!</div>
+	
+	<div id="thangs">
+		<div id="ButtonBG">
+			<span class=maButton type=button onclick="actionStart()">Raid!</span>
+		</div>
+		
+		<div id="CurrTables" style="font-size: 30">
+			<span id="diamButt" onclick="DTG()" class="CurrButt">⇩</span><span id="diamDisp">void</span><img src="raid_data/mages/diamond.png" width="30" height="30">
+			<br>
+			<span id="goldButt" onclick="GTS()" class="CurrButt">⇩</span><span id="goldDisp">void</span>
+			<br>
+			<span id="silvButt" onclick="STG()" class="CurrButt">⬆</span><span id="silvButt" onclick="STC()" class="CurrButt">⇩</span><span id="silvDisp">void</span>
+			<br>
+			<span id="coppButt" onclick="CTS()" class="CurrButt">⬆</span><span id="coppDisp">void</span>
+		</div>
+
+		<div id="ButtonBG">
+			<span id="luckButt" class=maButton type=button onclick="goodLuck()" style="font-size: 80">+Luck</span>
+		</div>
+	</div>
+	
+	<div id="shopTitle">
+		<span>Shop</span>
+		<div id="shop">
+			<div id="shBox1">
+				<div style="padding: 10px;">Prize: Common</div>
+				<span id="BuyButt" onclick="HCB()">Ⓒ</span>
+				<div>1000 Copper</div>
+			</div>
+			<div id="shBox2">
+				<div style="padding: 10px;">Prize: Rare</div>
+				<span id="BuyButt" onclick="HRB()">Ⓢ</span>
+				<div>1000 Silver</div>
+			</div>
+			<div id="shBox3">
+				<div style="padding: 10px;">Prize: Mythic</div>
+				<span id="BuyButt" onclick="HMB()">Ⓖ</span>
+				<div>1000 Gold</div>
+			</div>
+			<div id="shBox4">
+				<div style="padding: 10px;">Prize: Ultra</div>
+				<img src="raid_data/mages/diamond.png" id="UltraButt" onclick="HMB()">
+				<div>10 Diamonds</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="IntTables" style="font-size: 17">
+			<div>DEBUG INFO:</div>
+			<div id="rngDisp1">currTypeRng: null</div>
+			<div id="rngDisp2">currValRng: null</div>
+			<div id="wtDisp">winType: null</div>
+			<div id="wvDisp">winValue: null</div>
+			<div id="rarDisp">rarity: null</div>
+			<div id="clickDisp">clicks: null</div>
+			<div id="wlRngDisp">winLoseRng: null</div>
+			<div id="winDisp">win: null</div>
+			<div id="bLuckDisp">badLuck: null</div>
+			<div id="diamRngDisp">diamRng: null</div>
+			<div >
+				<input id="userKey" type="text" placeholder="User Key" size="20" style="font-size: 14">
+				<input onclick="user.loadKey('b')" type="button" value="Submit Key" style="height:25px; font-size: 15">
+			</div>
+			<div>
+				<input type="button" value="Reset Cache" style="height:25px; font-size: 15" onclick="user.resetCache()">
+			</div>
+			<div>
+				<input type="button" value="Reset Stats" style="height:25px; font-size: 15" onclick="user.resetStats()">
+			</div>
+		</div>
+</body>

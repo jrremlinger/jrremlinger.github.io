@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Checkers Game!</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<a href="../../../web-projects.html" style="text-decoration: none"><h1 style="color: black;">Checkers</h1></a>
+		<div class="container">
+			<div class="boxOne">
+				<div id="cheats">
+					<div style="font-size: 19px"><strong>Extras:</strong></div>
+					<div class="button" onclick="cheat(0)">All kings</div>
+					<br>
+					<div class="button" id="freeToggle" onclick="cheat(1)">Toggle free play</div>
+					<br>
+					<div class="button" onclick="cheat(2)">8s scramble</div>
+					<br>
+					<div class="button" onclick="cheat(3)">Skip Turn</div>
+				</div>
+			</div>
+			<div class="boxTwo">
+				<div class="container">
+					<div id="gameArea"></div>
+				</div>
+				<div id="gameLog"></div>
+				<div class="container">
+					<div class="button" onclick="reset()">Restart</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="game.js"></script>
+</html>

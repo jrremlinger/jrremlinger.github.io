@@ -1,0 +1,123 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: aliceblue;
+	display: block;
+	margin: auto;
+}
+
+.container {
+	margin: auto;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	flex-flow: nowrap;
+}
+
+.boxOne {
+	padding: 25px;
+	background-color: coral;
+}
+
+.boxTwo {
+	padding: 25px;
+	background-color: bisque;
+}
+
+h1, h2 { text-align: center; }
+
+h2 {
+	margin: 10px;
+	display: block;
+}
+
+img {
+	-webkit-user-drag: none;
+	color: white;
+	cursor: pointer;
+	border-radius: 100%;
+	width: 100%;
+	height: 100%;
+}
+
+.button {
+	-webkit-user-select: none;
+	text-align: center;
+	border: 3px solid black;
+	margin: 2px;
+	padding: 5px 15px 5px 15px;
+	display: inline-block;
+	cursor: pointer;
+	font-size: 17px;
+	background-color: azure;
+}
+
+
+.tile1, .tile2, .selected, .valid, .kill {
+	width: 12.5%;
+	height: 12.5%;
+	background-color: rgb(0, 0, 0);
+	margin: 0;
+	padding: 0;
+}
+
+.tile2 { background-color: crimson; }
+
+.selected {
+	animation: selectAnim 0.2s forwards infinite ease-in alternate;
+	border: 3px solid rgba(255, 255, 255, 0.301);
+}
+
+@keyframes selectAnim {
+	0% { background-color: rgb(61, 114, 117); }
+	100% { background-color: rgb(0, 0, 0); }
+}
+
+.valid {
+	animation: validAnim 1.5s forwards infinite ease-in-out alternate;
+	border: 3px solid rgba(255, 255, 255, 0.301);
+	cursor: pointer;
+}
+
+@keyframes validAnim {
+	0% { background-color: rgb(110, 230, 110); }
+	100% { background-color: rgb(0, 0, 0); }
+}
+
+.kill {
+	animation: killAnim 1.5s forwards infinite ease-in-out alternate;
+	border: 3px solid rgba(255, 255, 255, 0.301);
+	cursor: pointer;
+}
+
+@keyframes killAnim {
+	0% { background-color: rgb(199, 156, 240); }
+	100% { background-color: rgb(0, 0, 0); }
+}
+
+.king {
+	background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0), rgb(255, 217, 0), rgba(0, 0, 0, 0));
+	animation: goldAnim 1.2s forwards infinite ease-in alternate;
+}
+
+@keyframes goldAnim {
+	0% { background-color: rgba(85, 83, 0, 0.726); }
+	100% { background-color: rgb(255, 72, 0); }
+}
+
+#cheats {
+	float: left;
+	overflow: auto;
+}
+
+#gameArea {
+	padding: 0;
+	border: 10px ridge rgb(92, 18, 0);
+	width: 32vw;
+	height: 32vw;
+	display: flex;
+	flex-wrap: wrap;
+	-webkit-user-select: none;
+}

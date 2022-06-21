@@ -1,0 +1,29 @@
+.myTitle {
+	font-size: 40px;
+	text-align: center;
+	padding: 20px;
+}
+
+button {
+	font-size: 25px;
+}
+
+.container {
+	font-size: 30px;
+	margin: auto;
+	width: 35%;
+	border: 3px solid black;
+	padding: 15px;
+}
+
+.buttonContainer {
+	margin: auto;
+	width: 20%;
+	padding: 15px;
+	align-items: center;
+	text-align: center;
+}
+
+.choice, button {
+	cursor: pointer;
+}

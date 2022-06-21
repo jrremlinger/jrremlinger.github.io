@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <div id="cont">
+        <head>
+            <title>Cube Game!</title>
+            <a href="../../../web-projects.html" style="text-decoration: none"><h1 style="color: black;">Cube Game</h1></a>
+        </head>
+    </div>  
+    <style>
+        #cont 
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .box 
+        {
+            opacity: 0;
+            position: relative;
+            right: 10px;
+            bottom: 192px;
+            display: flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .box:hover
+        {
+            opacity: 0.45;
+        }
+        .box2
+        {
+            opacity: 1;
+            position: relative;
+            right: 10px;
+            bottom: 192px;
+            display: flex;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cont2
+        {
+            position: relative;
+            left: 5px;
+            width: 300px;
+            align-items: left;
+            justify-content: left;
+        }
+        #cont3
+        {
+            position: relative;
+            left: 145px;
+            bottom: 12px;
+            width: 300px;
+            align-items: right;
+            justify-content: right;
+        }
+        h1
+        {
+            width: 600px;
+            align-items: left;
+            justify-content: left;
+        }
+        #sb
+        {
+            display: flex;
+            align-items: left;
+            justify-content: left;
+            position: relative;
+            right: 5px;
+            width: 600px;
+            bottom: 65px;
+            pointer-events: none;
+        }
+        #toggle
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.65;
+            font-size: 11px;
+            position: relative;
+            right: 35px;
+            top: 85px;
+        }
+        #myCanvas
+        {
+            outline: black;
+            outline-width: 10px;
+            outline-style: double;
+        }
+    </style>
+    <body>
+        <div id="cont">
+            <canvas id="myCanvas" width="600" height="200"></canvas>
+            <button id="toggle" onclick="toggleUI()">UI</button>
+        </div>
+        <div id="boxStuff" class="box">
+            <div id="cont2">
+                <button onclick="new function() { isAI = !isAI; if (isAI) { aiGiveUp = false; clearInterval(giveUpTime); giveUpTime = setInterval(function() { aiGiveUp = true }, 5000); } }">Toggle AI</button>
+                <div><button onclick="new function() { showNearest = !showNearest }">Toggle Danger Color</button></div>
+            </div>
+            <div id="cont3">
+                <div>Update Rate: &nbsp;<input type="number" value="1" min="1" max="100" oninput="checkRate()" style="width: 40px;" id="rateBox"></div>
+            </div>
+        </div>
+        <div id="cont">
+            <div id="sb">Score: 0</div>
+        </div>
+    </body>
+	<script src="game.js"></script>
+</html>
