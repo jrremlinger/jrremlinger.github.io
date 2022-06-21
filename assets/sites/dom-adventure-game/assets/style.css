@@ -8,8 +8,8 @@ html {
 
 body {
   align-items: center;
-  /**background: #343434;
-  color: #fefefe;**/
+  background: #343434;
+  color: #fefefe;
   display: flex;
   font-family: Helvetica, Arial, sans-serif;
   justify-content: center;
